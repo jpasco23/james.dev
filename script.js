@@ -1,3 +1,51 @@
+// ===== TYPING ANIMATION =====
+function initTypingAnimation() {
+  const el = document.getElementById('typed-text');
+  if (!el) return;
+
+  const phrases = [
+    'Personal Brand.',
+    'Web Development.',
+    'Search Engine Optimisation.',
+    'WordPress Development.',
+  ];
+
+  let phraseIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  const typeSpeed = 70;
+  const deleteSpeed = 35;
+  const pauseAfterType = 1800;
+  const pauseAfterDelete = 400;
+
+  function tick() {
+    const current = phrases[phraseIndex];
+
+    if (!isDeleting) {
+      el.textContent = current.slice(0, charIndex + 1);
+      charIndex++;
+      if (charIndex === current.length) {
+        isDeleting = true;
+        setTimeout(tick, pauseAfterType);
+        return;
+      }
+      setTimeout(tick, typeSpeed);
+    } else {
+      el.textContent = current.slice(0, charIndex - 1);
+      charIndex--;
+      if (charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        setTimeout(tick, pauseAfterDelete);
+        return;
+      }
+      setTimeout(tick, deleteSpeed);
+    }
+  }
+
+  setTimeout(tick, 800);
+}
+
 // ===== BEAMS BACKGROUND =====
 function initBeamsBackground() {
   const container = document.querySelector('.hero-beams');
@@ -105,6 +153,7 @@ function initBeamsBackground() {
 }
 
 initBeamsBackground();
+initTypingAnimation();
 
 // ===== NAVBAR SCROLL =====
 const navbar = document.getElementById('navbar');
